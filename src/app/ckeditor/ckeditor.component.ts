@@ -25,6 +25,7 @@ export class CkeditorComponent implements OnInit {
       'bold',
       'italic',
       'superscript',
+      'subscript',
       '|',
       'link',
       'blockQuote',
@@ -35,7 +36,6 @@ export class CkeditorComponent implements OnInit {
       'undo',
       'redo',
       'MathType',
-      'subscript',
       'heading',
     ]
 
@@ -52,10 +52,12 @@ export class CkeditorComponent implements OnInit {
 
 
   showEditorContent() {
+    console.log("editor Content", this.EditorContent);
     this.editorContentStatus = true;
     this.displayContent = this.EditorContent;
     this.editorContentStore.push(this.displayContent);
     this.EditorContent = "";
+
   };
 
 
