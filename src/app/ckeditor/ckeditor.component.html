@@ -1,0 +1,43 @@
+<div class="container">
+
+    <ckeditor #editor [editor]="Editor" [(ngModel)]="EditorContent" [config]="config"></ckeditor>
+    <!-- <ckeditor [editor]="Editor" [(ngModel)]="EditorContent"></ckeditor> -->
+
+    <!-- <ckeditor [(ngModel)]="EditorContent" [config]="config">
+    </ckeditor> -->
+
+    <!-- <ckeditor [(ngModel)]="content">
+    </ckeditor> -->
+
+    <div>
+        <button class="btn btn-primary" (click)="showEditorContent()">
+            SUBMIT
+        </button>
+
+        <button class="btn btn-danger" (click)="clearEditorContent()">
+            CLEAR INPUT
+        </button>
+
+        <button class="btn btn-danger" (click)="clearOutPut()">
+            CLEAR OUTPUT
+        </button>
+    </div>
+
+
+    <div class="m-2">Output</div>
+    <div *ngIf="editorContentStatus">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <div *ngFor="let item of editorContentStore;let i = index" class="row">
+                    <div class="col-md-1">{{i+1}}</div>
+                    <div [innerHTML]="item" class="col-md-10"></div>
+                    <div class="col-md-1 pointer" (click)="removeSingleItem(i)">X</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
