@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import * as ClassicEditor from '../../assets/js/ck-editor-math-type/ckeditor.js';
 
 
 
@@ -32,11 +31,19 @@ export class CkeditorComponent implements OnInit {
       '|',
       'bulletedList',
       'numberedList',
-      'codeBlock',
       'undo',
       'redo',
       'MathType',
+      'ChemType',
       'heading',
+      'imageUpload',
+      'fontFamily',
+      'codeBlock',
+      'fontSize',
+      'fontFamily',
+      'fontColor',
+      'fontBackgroundColor'
+
     ]
 
   }
