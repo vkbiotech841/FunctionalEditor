@@ -19,13 +19,6 @@ export class CkeditorComponent implements OnInit {
 
   public config = {
     placeholder: 'Type the content here!',
-    fontFamily: {
-      options: [
-        'default',
-        'Ubuntu, Arial, sans-serif',
-        'Ubuntu Mono, Courier New, Courier, monospace'
-      ]
-    },
     toolbar: [
       '|',
       'bold',
@@ -46,6 +39,10 @@ export class CkeditorComponent implements OnInit {
       'imageUpload',
       'fontFamily',
       'codeBlock',
+      'fontSize',
+      'fontFamily',
+      'fontColor',
+      'fontBackgroundColor'
 
     ]
 
