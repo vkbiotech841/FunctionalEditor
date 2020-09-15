@@ -12,3 +12,13 @@
 .card {
   border-radius: 10px;
 }
+
+//////////// CK EDITOR STYLING //////////////////////////
+
+// ckeditor: Placeholder
+.ck.ck-editor__editable > .ck-placeholder::before {
+  color: #d21714;
+  font-family: Georgia;
+}
+
+/////////////////////////////////////////////////////////
