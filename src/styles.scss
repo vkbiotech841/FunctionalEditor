@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 
+// Global Styles:
 .container {
   margin: 5rem;
 }
@@ -11,6 +12,10 @@
 
 .card {
   border-radius: 10px;
+}
+
+.hide {
+  display: none;
 }
 
 //////////// CK EDITOR STYLING //////////////////////////

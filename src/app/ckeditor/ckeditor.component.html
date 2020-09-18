@@ -1,42 +1,66 @@
 <div class="container">
 
-    <ckeditor #editor [editor]="Editor" [(ngModel)]="EditorContent" [config]="config"></ckeditor>
-    <!-- <ckeditor [editor]="Editor" [(ngModel)]="EditorContent"></ckeditor> -->
+    <section>
+        <div class="m-2">
+            <input type="text" placeholder="Enter Name of the File..." [(ngModel)]="fileName">
+        </div>
+        <ckeditor #editor [editor]="Editor" [(ngModel)]="EditorContent" [config]="ckEditorconfiguration"
+            (ready)="onReady($event)">
+        </ckeditor>
 
-    <!-- <ckeditor [(ngModel)]="EditorContent" [config]="config">
-    </ckeditor> -->
+        <div>
+            <button class=" btn btn-primary" (click)="showEditorContent()">
+                SUBMIT
+            </button>
 
-    <!-- <ckeditor [(ngModel)]="content">
-    </ckeditor> -->
+            <button class="btn btn-primary" (click)="exporthtmlToImage()">
+                ScreenShot
+            </button>
 
-    <div>
-        <button class="btn btn-primary" (click)="showEditorContent()">
-            SUBMIT
-        </button>
+            <button class="btn btn-primary" (click)="exportHtmlToPDF()">
+                Export as Pdf
+            </button>
 
-        <button class="btn btn-danger" (click)="clearEditorContent()">
-            CLEAR INPUT
-        </button>
+            <button class="btn btn-danger" (click)="clearEditorContent()">
+                CLEAR INPUT
+            </button>
 
-        <button class="btn btn-danger" (click)="clearOutPut()">
-            CLEAR OUTPUT
-        </button>
-    </div>
+            <button class="btn btn-danger" (click)="clearOutPut()">
+                CLEAR OUTPUT
+            </button>
+            <button>
+                <!-- For uploading multiple images: type file,image. Please refere MDN document-->
+                <input type="file" multiple accept="image/*" name="upload-file" (change)="uploadImageAsUrl($event)">
+            </button>
+        </div>
+    </section>
 
 
-    <div class="m-2">Output</div>
-    <div *ngIf="editorContentStatus">
-        <div class="card" style="width: 100%;">
-            <div class="card-body">
-                <div *ngFor="let item of editorContentStore;let i = index" class="row">
-                    <div class="col-md-1">{{i+1}}</div>
-                    <div [innerHTML]="item" class="col-md-10"></div>
-                    <div class="col-md-1 pointer" (click)="removeSingleItem(i)">X</div>
-                    {{item}}
+    <section>
+        <div class="m-2">Output</div>
+        <!-- Display CKeditor Content -->
+        <div *ngIf="editorContentStatus" id="editorDisplayContent">
+            <div class="card" style="width: 100%;">
+                <div class="card-body" contenteditable="true">
+                    <div *ngFor="let item of editorContentStore;let i = index" class="row">
+                        <div class="col-md-1">{{i+1}}</div>
+                        <div [innerHTML]="item" class="col-md-10"></div>
+                        <div class="col-md-1 pointer" (click)="removeSingleItem(i)">X</div>
+                        {{item}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Displaying images -->
+        <div *ngFor="let image of images">
+            <img [src]="image" alt="">
+        </div>
+
+        <!-- Display ScreenShot -->
+        <div id="screenShot"></div>
+
+    </section>
 
 
 
