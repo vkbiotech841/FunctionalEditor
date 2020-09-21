@@ -7,7 +7,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 })
 export class MathjaxComponent implements OnInit {
 
-  mathJaxObject;
+  mathJaxObject: any;
 
   @Input() content: string;
 
@@ -29,13 +29,13 @@ export class MathjaxComponent implements OnInit {
     this.mathJaxObject = window['MathJax'];
     let angObj = this;
     setTimeout(() => {
-      console.log("1234")
+      // console.log("1234")
       angObj.mathJaxObject.Hub.Queue(["Typeset", angObj.mathJaxObject.Hub], 'mathContent');
     }, 0)
   };
 
   loadMathConfig() {
-    console.log("load config")
+    // console.log("load config")
     this.mathJaxObject = window['MathJax'];
     this.mathJaxObject.Hub.Config({
       showMathMenu: false,

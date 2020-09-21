@@ -5,14 +5,13 @@ import { jsPDF } from "jspdf";
 
 
 
-
-
-
 @Component({
   selector: 'app-ckeditor',
   templateUrl: './ckeditor.component.html',
   styleUrls: ['./ckeditor.component.scss']
 })
+
+
 export class CkeditorComponent implements OnInit {
 
   public Editor = ClassicEditor;
@@ -58,12 +57,11 @@ export class CkeditorComponent implements OnInit {
       'heading',
       'codeBlock',
     ]
-
   };
 
 
 
-  EditorContent: any = `<p><math xmlns="http://www.w3.org/1998/Math/MathML"><msqrt><mi>n</mi></msqrt></math></p>`;
+  EditorContent: any = "";
   editorContentStatus: boolean = false;
   displayContent = "";
   editorContentStore: any[] = [];
@@ -76,7 +74,7 @@ export class CkeditorComponent implements OnInit {
     this.displayContent = this.EditorContent;
     this.editorContentStore.push(this.displayContent);
     this.EditorContent = "";
-
+    console.log("editorContentStore", this.editorContentStore);
   };
 
 
@@ -94,7 +92,7 @@ export class CkeditorComponent implements OnInit {
   };
 
 
-  // HTML FILE UPLOAD OR IMAGE UPLOAD:
+  //FILE UPLOAD OR IMAGE UPLOAD:
   images: any[] = [];
 
   uploadImageAsUrl(event: any) {
@@ -115,7 +113,6 @@ export class CkeditorComponent implements OnInit {
 
   // TAKE A SCREEN SHOT: HTML to Image using html2canvas package
   fileName: string = "";
-
 
   exporthtmlToImage() {
     // Assigning File name
@@ -159,7 +156,6 @@ export class CkeditorComponent implements OnInit {
 
 
   // CREATE A PDF FILE: HTML to pdf using html2canvas package
-
   exportHtmlToPDF() {
     this.assigningFileName(this.fileName);
     let element = document.getElementById("editorDisplayContent");

@@ -39,7 +39,7 @@
             <div class="card" style="width: 100%;">
                 <div class="card-body" contenteditable="true">
                     <div *ngFor="let editorContent of editorContentStore;let i = index" class="row">
-                        <div class="col-md-1">{{i+1}}</div>
+                        <!-- <div class="col-md-1">{{i+1}}</div> -->
                         <app-mathjax [content]="editorContent" class="col-md-10"></app-mathjax>
                         <div class="col-md-1 pointer" (click)="removeSingleItem(i)">X</div>
                     </div>
