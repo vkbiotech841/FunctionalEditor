@@ -57,15 +57,13 @@ export class CkeditorComponent implements OnInit {
       'insertTable',
       'heading',
       'codeBlock',
-
-
     ]
 
   };
 
 
 
-  EditorContent: any = "";
+  EditorContent: any = `<p><math xmlns="http://www.w3.org/1998/Math/MathML"><msqrt><mi>n</mi></msqrt></math></p>`;
   editorContentStatus: boolean = false;
   displayContent = "";
   editorContentStore: any[] = [];
