@@ -1,3 +1,4 @@
+import { QuestionClass } from './../models/question-class';
 import { Component, OnInit } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import html2canvas from 'html2canvas';
@@ -13,6 +14,8 @@ import { jsPDF } from "jspdf";
 
 
 export class CkeditorComponent implements OnInit {
+
+  questionObj = new QuestionClass();
 
   public Editor = ClassicEditor;
 
@@ -59,6 +62,23 @@ export class CkeditorComponent implements OnInit {
     ]
   };
 
+  choiceOne: any = "";
+  choiceTwo: any = "";
+  choiceThree: any = "";
+  choiceFour: any = "";
+  multipleChoicesForSingleQuestion: any[] = [];
+
+  storeMultipleChoices() {
+    this.multipleChoicesForSingleQuestion.push(this.choiceOne);
+    this.multipleChoicesForSingleQuestion.push(this.choiceTwo);
+    this.multipleChoicesForSingleQuestion.push(this.choiceThree);
+    this.multipleChoicesForSingleQuestion.push(this.choiceFour);
+    this.choiceOne = "";
+    this.choiceTwo = "";
+    this.choiceThree = "";
+    this.choiceFour = "";
+    console.log("storeMultipleChoices", this.multipleChoicesForSingleQuestion);
+  }
 
 
   EditorContent: any = "";
@@ -69,6 +89,7 @@ export class CkeditorComponent implements OnInit {
 
 
   showEditorContent() {
+    this.storeMultipleChoices();
     console.log("editor Content", this.EditorContent);
     this.editorContentStatus = true;
     this.displayContent = this.EditorContent;
@@ -181,6 +202,49 @@ export class CkeditorComponent implements OnInit {
       console.log(btoa(loader.file));
       return new UploadAdapter(loader);
     };
+  };
+
+
+
+
+
+  // Question paper
+
+  allQuestions: any = [{
+    "id": 1,
+    "question": "What is the capital of Belgium?",
+    "a": "Vienna",
+    "b": "Berlin",
+    "c": "Brussels",
+    "d": "Prague",
+    "answer": "c"
+  },
+  {
+    "id": 2,
+    "question": "What is the capital of Australia?",
+    "a": "Vienna",
+    "b": "Canberra",
+    "c": "Brussels",
+    "d": "Prague",
+    "answer": "b"
+  },
+  {
+    "id": 3,
+    "question": "What is the capital of Bulgaria?",
+    "a": "Vienna",
+    "b": "Sofia",
+    "c": "Brussels",
+    "d": "Prague",
+    "answer": "b"
+  }
+  ];
+
+  submitAddQuestion() {
+    let newQuestion = JSON.parse(JSON.stringify(this.questionObj));
+    newQuestion["id"] = this.allQuestions.length + 1;
+    console.log("stringify object", newQuestion);
+    this.allQuestions.push(newQuestion);
+    console.log("All questions", this.allQuestions);
   };
 
 
