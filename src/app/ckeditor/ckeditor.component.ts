@@ -16,13 +16,23 @@ import { jsPDF } from "jspdf";
 export class CkeditorComponent implements OnInit {
 
   questionObj = new QuestionClass();
-
   public Editor = ClassicEditor;
+
+  choiceOne: any = "";
+  choiceTwo: any = "";
+  choiceThree: any = "";
+  choiceFour: any = "";
+  correctAnswer: any = "";
+
+  EditorContent: any = "";
+  editorContentStatus: boolean = false;
+  displayContent = "";
+  editorContentStore: any[] = [];
+  allQuestions: any = [];
 
   constructor() { }
 
   ngOnInit() {
-
   }
 
   public ckEditorconfiguration = {
@@ -62,34 +72,23 @@ export class CkeditorComponent implements OnInit {
     ]
   };
 
-  choiceOne: any = "";
-  choiceTwo: any = "";
-  choiceThree: any = "";
-  choiceFour: any = "";
-  multipleChoicesForSingleQuestion: any[] = [];
 
-  storeMultipleChoices() {
-    this.multipleChoicesForSingleQuestion.push(this.choiceOne);
-    this.multipleChoicesForSingleQuestion.push(this.choiceTwo);
-    this.multipleChoicesForSingleQuestion.push(this.choiceThree);
-    this.multipleChoicesForSingleQuestion.push(this.choiceFour);
-    this.choiceOne = "";
-    this.choiceTwo = "";
-    this.choiceThree = "";
-    this.choiceFour = "";
-    console.log("storeMultipleChoices", this.multipleChoicesForSingleQuestion);
-  }
-
-
-  EditorContent: any = "";
-  editorContentStatus: boolean = false;
-  displayContent = "";
-  editorContentStore: any[] = [];
-
-
+  mode: string = "options";
+  showOptions(selectedOption) {
+    switch (selectedOption) {
+      case "createQuestionPaper":
+        this.mode = "createQuestionPaper"
+        break;
+      case "takeAQuize":
+        this.mode = "takeAQuize"
+        break;
+      default:
+        this.mode = "options"
+        break;
+    }
+  };
 
   showEditorContent() {
-    this.storeMultipleChoices();
     console.log("editor Content", this.EditorContent);
     this.editorContentStatus = true;
     this.displayContent = this.EditorContent;
@@ -105,12 +104,46 @@ export class CkeditorComponent implements OnInit {
 
   clearOutPut() {
     this.displayContent = ""
-    this.editorContentStore = [];
+    this.allQuestions = [];
   };
 
-  removeSingleItem(index) {
-    this.editorContentStore.splice(index, 1)
+
+  // Question paper
+
+  submitAddQuestion() {
+    this.questionObj.question = this.EditorContent;
+    this.questionObj.a = this.choiceOne;
+    this.questionObj.b = this.choiceTwo;
+    this.questionObj.c = this.choiceThree;
+    this.questionObj.d = this.choiceFour;
+    this.questionObj.answer = this.correctAnswer;
+    let newQuestion = JSON.parse(JSON.stringify(this.questionObj));
+    newQuestion["id"] = this.allQuestions.length + 1;
+    console.log("stringify object", newQuestion);
+    this.allQuestions.push(newQuestion);
+    console.log("All questions", this.allQuestions);
+    this.choiceOne = "";
+    this.choiceTwo = "";
+    this.choiceThree = "";
+    this.choiceFour = "";
+    this.showEditorContent();
   };
+
+
+  removeSingleQuestion(index) {
+    this.allQuestions.splice(index, 1)
+  };
+
+
+
+
+
+
+
+
+
+
+
 
 
   //FILE UPLOAD OR IMAGE UPLOAD:
@@ -208,44 +241,7 @@ export class CkeditorComponent implements OnInit {
 
 
 
-  // Question paper
 
-  allQuestions: any = [{
-    "id": 1,
-    "question": "What is the capital of Belgium?",
-    "a": "Vienna",
-    "b": "Berlin",
-    "c": "Brussels",
-    "d": "Prague",
-    "answer": "c"
-  },
-  {
-    "id": 2,
-    "question": "What is the capital of Australia?",
-    "a": "Vienna",
-    "b": "Canberra",
-    "c": "Brussels",
-    "d": "Prague",
-    "answer": "b"
-  },
-  {
-    "id": 3,
-    "question": "What is the capital of Bulgaria?",
-    "a": "Vienna",
-    "b": "Sofia",
-    "c": "Brussels",
-    "d": "Prague",
-    "answer": "b"
-  }
-  ];
-
-  submitAddQuestion() {
-    let newQuestion = JSON.parse(JSON.stringify(this.questionObj));
-    newQuestion["id"] = this.allQuestions.length + 1;
-    console.log("stringify object", newQuestion);
-    this.allQuestions.push(newQuestion);
-    console.log("All questions", this.allQuestions);
-  };
 
 
 

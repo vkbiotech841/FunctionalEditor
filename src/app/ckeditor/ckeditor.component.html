@@ -1,191 +1,212 @@
 <div class="container">
 
-    <section>
-        <div class="m-2">
-            <input type="text" placeholder="Enter Name of the File..." [(ngModel)]="fileName">
+    <!-- Show Options -->
+    <div *ngIf="mode == 'options'">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card pointer" (click)="showOptions('createQuestionPaper')">
+                    <div class="card-body">
+                        <h5 class="card-title">Create A Question Paper</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a class="btn btn-primary">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card pointer">
+                    <div class="card-body" (click)="showOptions('takeAQuize')">
+                        <h5 class="card-title">Take a Quize</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Start a Quiz</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <ckeditor #editor [editor]="Editor" [(ngModel)]="EditorContent" [config]="ckEditorconfiguration"
-            (ready)="onReady($event)">
-        </ckeditor>
 
-        <div class="m-2">
-            <input type="text" placeholder="Choice 1" [(ngModel)]="choiceOne">
-            <input type="text" placeholder="Choice 2" [(ngModel)]="choiceTwo">
-            <input type="text" placeholder="Choice 3" [(ngModel)]="choiceThree">
-            <input type="text" placeholder="Choice 4" [(ngModel)]="choiceFour">
-        </div>
+    </div>
 
+    <!-- CREATE A QUESTION PAPER -->
+    <div *ngIf="mode == 'createQuestionPaper'">
+
+        <section>
+            <div class="m-2">
+                <input type="text" placeholder="Enter Name of the File..." [(ngModel)]="fileName">
+            </div>
+            <ckeditor #editor [editor]="Editor" [(ngModel)]="EditorContent" [config]="ckEditorconfiguration"
+                (ready)="onReady($event)">
+            </ckeditor>
+
+            <div>
+                <!-- <button class=" btn btn-primary" (click)="showEditorContent();">
+                    SUBMIT
+                </button> -->
+                <button class="btn btn-primary" (click)="exporthtmlToImage()">
+                    ScreenShot
+                </button>
+                <button class="btn btn-primary" (click)="exportHtmlToPDF()">
+                    Export as Pdf
+                </button>
+                <button class="btn btn-danger" (click)="clearEditorContent()">
+                    CLEAR INPUT
+                </button>
+                <button class="btn btn-danger" (click)="clearOutPut()">
+                    CLEAR OUTPUT
+                </button>
+                <button>
+                    <!-- For uploading multiple images: type file,image. Please refere MDN document-->
+                    <input type="file" multiple accept="image/*" name="upload-file" (change)="uploadImageAsUrl($event)">
+                </button>
+            </div>
+        </section>
+
+        <section>
+            <form #questionForm="ngForm" novalidate>
+
+                <div class="row">
+                    <div class="col-sm-12 col-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="a">Option (A)</label>
+                            <span style="color:red;" [hidden]="!(a?.invalid)">*</span>
+                            <input type="text" class="form-control" name="a" placeholder="Enter First Option"
+                                [(ngModel)]="choiceOne" [ngClass]="{
+                                    'is-invalid': a?.invalid && (a?.dirty ||a?.touched),
+                                    'is-valid': a?.valid && (a?.dirty || a?.touched)
+                               }" #a="ngModel" required>
+                            <div class="invalid-feedback" *ngIf="a.errors && (a.dirty || a.touched)">
+                                <p *ngIf="a.errors.required">Option is required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="b">Option (B)</label>
+                            <span style="color:red;" [hidden]="!(b?.invalid)">*</span>
+                            <input type="text" class="form-control" name="b" placeholder="Enter Second Option"
+                                [(ngModel)]="choiceTwo" [ngClass]="{
+                                'is-invalid': b?.invalid && (b?.dirty ||b?.touched),
+                                'is-valid': b?.valid && (b?.dirty || b?.touched)
+                           }" #b="ngModel" required>
+                            <div class="invalid-feedback" *ngIf="b.errors && (b.dirty || b.touched)">
+                                <p *ngIf="b.errors.required">Option is required</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="c">Option (C)</label>
+                            <span style="color:red;" [hidden]="!(c?.invalid)">*</span>
+                            <input type="text" class="form-control" name="c" placeholder="Enter Third Option"
+                                [(ngModel)]="choiceThree" [ngClass]="{
+                                      'is-invalid': c?.invalid && (c?.dirty ||c?.touched),
+                                      'is-valid': c?.valid && (c?.dirty || c?.touched)
+                                 }" #c="ngModel" required>
+                            <div class="invalid-feedback" *ngIf="c.errors && (c.dirty || c.touched)">
+                                <p *ngIf="c.errors.required">Option is required</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-12 col-lg-6">
+                        <div class="form-group">
+                            <label for="b">Option (D)</label>
+                            <span style="color:red;" [hidden]="!(d?.invalid)">*</span>
+                            <input type="text" class="form-control" name="d" placeholder="Enter fourth Option"
+                                [(ngModel)]="choiceFour" [ngClass]="{
+                                  'is-invalid': d?.invalid && (d?.dirty ||d?.touched),
+                                  'is-valid': d?.valid && (d?.dirty || d?.touched)
+                             }" #d="ngModel" required>
+                            <div class="invalid-feedback" *ngIf="d.errors && (d.dirty || d.touched)">
+                                <p *ngIf="d.errors.required">Option is required</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-12 label-font">Choose Correct Answer Option
+                        <span style="color:red;" [hidden]="!(answer?.invalid)">*</span>
+                    </label>
+                    <div class="col-md-12">
+                        <div class="form-check form-check-inline mr-2">
+                            <input class="form-check-input" type="radio" name="answer" value="a"
+                                [(ngModel)]="correctAnswer" #answer="ngModel" required>
+                            <label class="form-check-label">(A)</label>
+                        </div>
+                        <div class="form-check form-check-inline mr-2">
+                            <input class="form-check-input" type="radio" name="answer" value="b"
+                                [(ngModel)]="correctAnswer" #answer="ngModel" required>
+                            <label class="form-check-label">(B)</label>
+                        </div>
+                        <div class="form-check form-check-inline mr-2">
+                            <input class="form-check-input" type="radio" name="answer" value="c"
+                                [(ngModel)]="correctAnswer" #answer="ngModel" required>
+                            <label class="form-check-label">(C)</label>
+                        </div>
+                        <div class="form-check form-check-inline mr-2">
+                            <input class="form-check-input" type="radio" name="answer" value="d"
+                                [(ngModel)]="correctAnswer" #answer="ngModel" required>
+                            <label class="form-check-label">(D)</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <span>
+                <button type="button" class="btn btn-primary" (click)="submitAddQuestion()"
+                    [disabled]="questionForm.invalid" [class.cursor-restriction]="questionForm.invalid"
+                    style="margin-right: 17px;">ADD Question</button>
+            </span>
+
+        </section>
+
+        <section>
+            <div class="m-2">Question Sheet</div>
+            <!-- Display CKeditor Content -->
+            <div *ngIf="editorContentStatus" id="editorDisplayContent">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body" contenteditable="true">
+                        <div *ngFor="let singleQuestion of allQuestions;let i = index">
+                            <div class="row">
+                                <div>{{i+1}}.</div>
+                                <app-mathjax [content]="singleQuestion.question" class="col-md-11"></app-mathjax>
+                                <div class="pointer" (click)="removeSingleQuestion(i)">
+                                    X
+                                </div>
+                            </div>
+                            <div class="displayFlex">
+                                <div class="ml-5p">(a) {{singleQuestion.a}}</div>
+                                <div class="ml-5p">(b) {{singleQuestion.b}}</div>
+                                <div class="ml-5p">(c) {{singleQuestion.c}}</div>
+                                <div class="ml-5p">(d) {{singleQuestion.d}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Displaying images -->
+            <div *ngFor="let image of images">
+                <img [src]="image" alt="" style="width: 70%;">
+            </div>
+
+            <!-- Display ScreenShot -->
+            <div id="screenShot"></div>
+
+        </section>
+    </div>
+
+
+    <!-- TAKE A QUIZE -->
+
+    <div *ngIf="mode == 'takeAQuize'">
         <div>
-            <button class=" btn btn-primary" (click)="showEditorContent();">
-                SUBMIT
-            </button>
-            <button class="btn btn-primary" (click)="exporthtmlToImage()">
-                ScreenShot
-            </button>
-            <button class="btn btn-primary" (click)="exportHtmlToPDF()">
-                Export as Pdf
-            </button>
-            <button class="btn btn-danger" (click)="clearEditorContent()">
-                CLEAR INPUT
-            </button>
-            <button class="btn btn-danger" (click)="clearOutPut()">
-                CLEAR OUTPUT
-            </button>
-            <button>
-                <!-- For uploading multiple images: type file,image. Please refere MDN document-->
-                <input type="file" multiple accept="image/*" name="upload-file" (change)="uploadImageAsUrl($event)">
-            </button>
-        </div>
-    </section>
-
-
-    <section>
-        <div class="m-2">Output</div>
-        <!-- Display CKeditor Content -->
-        <div *ngIf="editorContentStatus" id="editorDisplayContent">
-            <div class="card" style="width: 100%;">
-                <div class="card-body" contenteditable="true">
-                    <div *ngFor="let editorContent of editorContentStore;let i = index" class="row">
-                        <div class="col-md-1">{{i+1}}</div>
-                        <app-mathjax [content]="editorContent" class="col-md-10"></app-mathjax>
-                        <div class="col-md-1 pointer" (click)="removeSingleItem(i)">X</div>
-                    </div>
-                    <div class="displayFlex">
-                        <div *ngFor="let AnswerChoice of multipleChoicesForSingleQuestion" class="ml-20p">
-                            {{AnswerChoice}}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            Quize in development
         </div>
 
-        <!-- Displaying images -->
-        <div *ngFor="let image of images">
-            <img [src]="image" alt="" style="width: 70%;">
-        </div>
-
-        <!-- Display ScreenShot -->
-        <div id="screenShot"></div>
-
-    </section>
+    </div>
 
 
-    <section>
-        <form #questionForm="ngForm" novalidate>
-            <div class="row">
-                <div class="col-sm-12 col-12 col-lg-12">
-                    <div class="form-group">
-                        <label for="question" class="label-font"> Add Question</label>
-                        <span style="color:red;" [hidden]="!(question?.invalid)">*</span>
-                        <input type="text" class="form-control" name="question" placeholder="Enter Question"
-                            [(ngModel)]="questionObj.question" [ngClass]="{
-                        'is-invalid': question?.invalid && (question?.dirty ||question?.touched),
-                        'is-valid': question?.valid && (question?.dirty || question?.touched)
-                   }" #question="ngModel" required>
-                        <div class="invalid-feedback" *ngIf="question.errors && (question.dirty || question.touched)">
-                            <p *ngIf="question.errors.required">Question Description is required</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12 col-12 col-lg-6">
-                    <div class="form-group">
-                        <label for="a">Option a.</label>
-                        <span style="color:red;" [hidden]="!(a?.invalid)">*</span>
-                        <input type="text" class="form-control" name="a" placeholder="Enter First Option"
-                            [(ngModel)]="questionObj.a" [ngClass]="{
-                                'is-invalid': a?.invalid && (a?.dirty ||a?.touched),
-                                'is-valid': a?.valid && (a?.dirty || a?.touched)
-                           }" #a="ngModel" required>
-                        <div class="invalid-feedback" *ngIf="a.errors && (a.dirty || a.touched)">
-                            <p *ngIf="a.errors.required">Option is required</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-12 col-lg-6">
-                    <div class="form-group">
-                        <label for="b">Option b.</label>
-                        <span style="color:red;" [hidden]="!(b?.invalid)">*</span>
-                        <input type="text" class="form-control" name="b" placeholder="Enter Second Option"
-                            [(ngModel)]="questionObj.b" [ngClass]="{
-                            'is-invalid': b?.invalid && (b?.dirty ||b?.touched),
-                            'is-valid': b?.valid && (b?.dirty || b?.touched)
-                       }" #b="ngModel" required>
-                        <div class="invalid-feedback" *ngIf="b.errors && (b.dirty || b.touched)">
-                            <p *ngIf="b.errors.required">Option is required</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-12 col-lg-6">
-                    <div class="form-group">
-                        <label for="c">Option c.</label>
-                        <span style="color:red;" [hidden]="!(c?.invalid)">*</span>
-                        <input type="text" class="form-control" name="c" placeholder="Enter Third Option"
-                            [(ngModel)]="questionObj.c" [ngClass]="{
-                                  'is-invalid': c?.invalid && (c?.dirty ||c?.touched),
-                                  'is-valid': c?.valid && (c?.dirty || c?.touched)
-                             }" #c="ngModel" required>
-                        <div class="invalid-feedback" *ngIf="c.errors && (c.dirty || c.touched)">
-                            <p *ngIf="c.errors.required">Option is required</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-12 col-lg-6">
-                    <div class="form-group">
-                        <label for="b">Option d.</label>
-                        <span style="color:red;" [hidden]="!(d?.invalid)">*</span>
-                        <input type="text" class="form-control" name="d" placeholder="Enter fourth Option"
-                            [(ngModel)]="questionObj.d" [ngClass]="{
-                              'is-invalid': d?.invalid && (d?.dirty ||d?.touched),
-                              'is-valid': d?.valid && (d?.dirty || d?.touched)
-                         }" #d="ngModel" required>
-                        <div class="invalid-feedback" *ngIf="d.errors && (d.dirty || d.touched)">
-                            <p *ngIf="d.errors.required">Option is required</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-md-12 label-font">Choose Correct Answer Option
-                    <span style="color:red;" [hidden]="!(answer?.invalid)">*</span>
-                </label>
-                <div class="col-md-12">
-                    <div class="form-check form-check-inline mr-2">
-                        <input class="form-check-input" type="radio" name="answer" value="a"
-                            [(ngModel)]="questionObj.answer" #answer="ngModel" required>
-                        <label class="form-check-label">a.</label>
-                    </div>
-                    <div class="form-check form-check-inline mr-2">
-                        <input class="form-check-input" type="radio" name="answer" value="b"
-                            [(ngModel)]="questionObj.answer" #answer="ngModel" required>
-                        <label class="form-check-label">b.</label>
-                    </div>
-                    <div class="form-check form-check-inline mr-2">
-                        <input class="form-check-input" type="radio" name="answer" value="c"
-                            [(ngModel)]="questionObj.answer" #answer="ngModel" required>
-                        <label class="form-check-label">c.</label>
-                    </div>
-                    <div class="form-check form-check-inline mr-2">
-                        <input class="form-check-input" type="radio" name="answer" value="d"
-                            [(ngModel)]="questionObj.answer" #answer="ngModel" required>
-                        <label class="form-check-label">d.</label>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        <span>
-            <button type="button" class="btn btn-primary" (click)="submitAddQuestion()"
-                [disabled]="questionForm.invalid" [class.cursor-restriction]="questionForm.invalid"
-                style="margin-right: 17px;">ADD Question</button>
-        </span>
-
-    </section>
 
 
 

@@ -7,6 +7,7 @@ export class QuestionClass {
     "d": string;
     "answer": string;
     "selected"?: string;
+    "images"?: any[];
 }
 
 
