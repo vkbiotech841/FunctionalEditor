@@ -6,6 +6,16 @@
   display: flex;
 }
 
+.displayFlexSpaceEvenly {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.displayFlexSpaceBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
 .ml-5p {
   margin-left: 3%;
 }
@@ -13,4 +23,10 @@
 .options {
   margin: auto auto;
   margin: 10%;
+}
+
+.questionHeader {
+  background: lightgray;
+  width: 100%;
+  height: 50px;
 }

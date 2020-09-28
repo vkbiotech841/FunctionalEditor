@@ -167,6 +167,15 @@
             <div *ngIf="editorContentStatus" id="editorDisplayContent">
                 <div class="card" style="width: 100%;">
                     <div class="card-body" contenteditable="true">
+                        <div class="displayFlexSpaceEvenly questionHeader">
+                            <div style="margin: 10px;">FIITJEE</div>
+                            <div style="margin: 10px;">Practical GeoMetry</div>
+                            <div style="margin: 10px;">CPP</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">Name: </div>
+                            <div class="col-12 col-md-6">Batch:</div>
+                        </div>
                         <div *ngFor="let singleQuestion of allQuestions;let i = index">
                             <div class="row">
                                 <div>{{i+1}}.</div>

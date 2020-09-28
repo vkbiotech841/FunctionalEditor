@@ -112,6 +112,7 @@ export class CkeditorComponent implements OnInit {
   // Question paper
 
   submitAddQuestion() {
+    this.editorContentStatus = true;
     this.questionObj.question = this.EditorContent;
     this.questionObj.a = this.choiceOne;
     this.questionObj.b = this.choiceTwo;
@@ -123,11 +124,11 @@ export class CkeditorComponent implements OnInit {
     console.log("stringify object", newQuestion);
     this.allQuestions.push(newQuestion);
     console.log("All questions", this.allQuestions);
-    this.choiceOne = "";
-    this.choiceTwo = "";
-    this.choiceThree = "";
-    this.choiceFour = "";
-    this.showEditorContent();
+    // this.choiceOne = "";
+    // this.choiceTwo = "";
+    // this.choiceThree = "";
+    // this.choiceFour = "";
+    // this.showEditorContent();
   };
 
 
