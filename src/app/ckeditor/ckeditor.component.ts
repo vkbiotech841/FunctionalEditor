@@ -1,5 +1,6 @@
 import { QuestionClass } from './../models/question-class';
 import { Component, OnInit } from '@angular/core';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf";

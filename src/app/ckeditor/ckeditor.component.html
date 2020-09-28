@@ -1,13 +1,12 @@
-<div class="container">
-
-    <!-- Show Options -->
+<!-- Show Options -->
+<div class="options">
     <div *ngIf="mode == 'options'">
         <div class="row">
             <div class="col-md-6">
                 <div class="card pointer" (click)="showOptions('createQuestionPaper')">
                     <div class="card-body">
                         <h5 class="card-title">Create A Question Paper</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <p class="card-text">Compose your Questions with our platform.</p>
                         <a class="btn btn-primary">Create</a>
                     </div>
                 </div>
@@ -15,18 +14,20 @@
             <div class="col-md-6">
                 <div class="card pointer">
                     <div class="card-body" (click)="showOptions('takeAQuize')">
-                        <h5 class="card-title">Take a Quize</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <h5 class="card-title">Take a Quiz</h5>
+                        <p class="card-text">Analyze your skill: Go for a Quiz</p>
                         <a href="#" class="btn btn-primary">Start a Quiz</a>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+</div>
 
+<div class="container">
     <!-- CREATE A QUESTION PAPER -->
     <div *ngIf="mode == 'createQuestionPaper'">
+        <button class="btn btn-secondary btn-sm" (click)="showOptions('options')">Back</button>
 
         <section>
             <div class="m-2">
@@ -200,14 +201,10 @@
     <!-- TAKE A QUIZE -->
 
     <div *ngIf="mode == 'takeAQuize'">
+        <button class="btn btn-secondary btn-sm" (click)="showOptions('options')">Back</button>
         <div>
             Quize in development
         </div>
 
     </div>
-
-
-
-
-
 </div>
