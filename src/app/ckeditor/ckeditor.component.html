@@ -27,13 +27,33 @@
 <div class="container">
     <!-- CREATE A QUESTION PAPER -->
     <div *ngIf="mode == 'createQuestionPaper'">
-        <button class="btn btn-secondary btn-sm" (click)="showOptions('options')">Back</button>
+        <button class="btn btn-secondary btn-sm" (click)="showOptions('options')">Go Back</button>
 
         <section>
+            <h5>Question Paper MetaData:</h5>
             <div class="m-2">
-                <input type="text" placeholder="Enter Name of the File..." [(ngModel)]="fileName">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <input type="text" placeholder="File name for download" [(ngModel)]="fileName"
+                            class="form-control m-2">
+                        <input type="text" placeholder="Institute Name..." [(ngModel)]="instituteName"
+                            class="form-control m-2">
+                        <input type="text" placeholder="Question Paper Name" [(ngModel)]="questionPaperTitle"
+                            class="form-control m-2">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <input type="text" placeholder="Semester Name" [(ngModel)]="semesterName"
+                            class="form-control m-2">
+                        <input type="text" placeholder="Examiner Name" [(ngModel)]="name" class="form-control m-2">
+                        <input type="text" placeholder="Batch Name" [(ngModel)]="batch" class="form-control m-2">
+                    </div>
+                </div>
             </div>
-            <ckeditor #editor [editor]="Editor" [(ngModel)]="EditorContent" [config]="ckEditorconfiguration"
+        </section>
+
+        <section>
+            <h5>Frame Your Questions:</h5>
+            <ckeditor #editor [editor]="Editor" [(ngModel)]="editorContent" [config]="ckEditorconfiguration"
                 (ready)="onReady($event)">
             </ckeditor>
 
@@ -41,17 +61,17 @@
                 <!-- <button class=" btn btn-primary" (click)="showEditorContent();">
                     SUBMIT
                 </button> -->
-                <button class="btn btn-primary" (click)="exporthtmlToImage()">
+                <button class="btn btn-secondary btn-sm" (click)="exporthtmlToImage()">
                     ScreenShot
                 </button>
-                <button class="btn btn-primary" (click)="exportHtmlToPDF()">
+                <button class="btn btn-secondary btn-sm" (click)="exportHtmlToPDF()">
                     Export as Pdf
                 </button>
-                <button class="btn btn-danger" (click)="clearEditorContent()">
-                    CLEAR INPUT
+                <button class="btn btn-secondary btn-sm" (click)="clearEditorContent()">
+                    Clear Input
                 </button>
-                <button class="btn btn-danger" (click)="clearOutPut()">
-                    CLEAR OUTPUT
+                <button class="btn btn-secondary btn-sm" (click)="clearOutPut()">
+                    Clear Output
                 </button>
                 <button>
                     <!-- For uploading multiple images: type file,image. Please refere MDN document-->
@@ -60,36 +80,24 @@
             </div>
         </section>
 
-        <section>
-            <form #questionForm="ngForm" novalidate>
 
+        <section>
+            <form [formGroup]="questionForm">
                 <div class="row">
                     <div class="col-sm-12 col-12 col-lg-6">
                         <div class="form-group">
                             <label for="a">Option (A)</label>
-                            <span style="color:red;" [hidden]="!(a?.invalid)">*</span>
-                            <input type="text" class="form-control" name="a" placeholder="Enter First Option"
-                                [(ngModel)]="choiceOne" [ngClass]="{
-                                    'is-invalid': a?.invalid && (a?.dirty ||a?.touched),
-                                    'is-valid': a?.valid && (a?.dirty || a?.touched)
-                               }" #a="ngModel" required>
-                            <div class="invalid-feedback" *ngIf="a.errors && (a.dirty || a.touched)">
-                                <p *ngIf="a.errors.required">Option is required</p>
-                            </div>
+                            <span style="color:red;">*</span>
+                            <input type="text" class="form-control" name="choiceOne" placeholder="Enter First Option"
+                                formControlName="choiceOne">
                         </div>
                     </div>
                     <div class="col-sm-12 col-12 col-lg-6">
                         <div class="form-group">
                             <label for="b">Option (B)</label>
-                            <span style="color:red;" [hidden]="!(b?.invalid)">*</span>
-                            <input type="text" class="form-control" name="b" placeholder="Enter Second Option"
-                                [(ngModel)]="choiceTwo" [ngClass]="{
-                                'is-invalid': b?.invalid && (b?.dirty ||b?.touched),
-                                'is-valid': b?.valid && (b?.dirty || b?.touched)
-                           }" #b="ngModel" required>
-                            <div class="invalid-feedback" *ngIf="b.errors && (b.dirty || b.touched)">
-                                <p *ngIf="b.errors.required">Option is required</p>
-                            </div>
+                            <span style="color:red;">*</span>
+                            <input type="text" class="form-control" name="choiceTwo" placeholder="Enter Second Option"
+                                formControlName="choiceTwo">
                         </div>
                     </div>
                 </div>
@@ -97,98 +105,85 @@
                     <div class="col-sm-12 col-12 col-lg-6">
                         <div class="form-group">
                             <label for="c">Option (C)</label>
-                            <span style="color:red;" [hidden]="!(c?.invalid)">*</span>
-                            <input type="text" class="form-control" name="c" placeholder="Enter Third Option"
-                                [(ngModel)]="choiceThree" [ngClass]="{
-                                      'is-invalid': c?.invalid && (c?.dirty ||c?.touched),
-                                      'is-valid': c?.valid && (c?.dirty || c?.touched)
-                                 }" #c="ngModel" required>
-                            <div class="invalid-feedback" *ngIf="c.errors && (c.dirty || c.touched)">
-                                <p *ngIf="c.errors.required">Option is required</p>
-                            </div>
+                            <span style="color:red;">*</span>
+                            <input type="text" class="form-control" name="choiceThree" placeholder="Enter Third Option"
+                                formControlName="choiceThree">
                         </div>
                     </div>
                     <div class="col-sm-12 col-12 col-lg-6">
                         <div class="form-group">
                             <label for="b">Option (D)</label>
-                            <span style="color:red;" [hidden]="!(d?.invalid)">*</span>
+                            <span style="color:red;">*</span>
                             <input type="text" class="form-control" name="d" placeholder="Enter fourth Option"
-                                [(ngModel)]="choiceFour" [ngClass]="{
-                                  'is-invalid': d?.invalid && (d?.dirty ||d?.touched),
-                                  'is-valid': d?.valid && (d?.dirty || d?.touched)
-                             }" #d="ngModel" required>
-                            <div class="invalid-feedback" *ngIf="d.errors && (d.dirty || d.touched)">
-                                <p *ngIf="d.errors.required">Option is required</p>
-                            </div>
+                                formControlName="choiceFour">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-md-12 label-font">Choose Correct Answer Option
-                        <span style="color:red;" [hidden]="!(answer?.invalid)">*</span>
+                        <span style="color:red;">*</span>
                     </label>
                     <div class="col-md-12">
                         <div class="form-check form-check-inline mr-2">
-                            <input class="form-check-input" type="radio" name="answer" value="a"
-                                [(ngModel)]="correctAnswer" #answer="ngModel" required>
+                            <input class="form-check-input" type="radio" value="a" formControlName="correctAnswer">
                             <label class="form-check-label">(A)</label>
                         </div>
                         <div class="form-check form-check-inline mr-2">
-                            <input class="form-check-input" type="radio" name="answer" value="b"
-                                [(ngModel)]="correctAnswer" #answer="ngModel" required>
+                            <input class="form-check-input" type="radio" value="b" formControlName="correctAnswer">
                             <label class="form-check-label">(B)</label>
                         </div>
                         <div class="form-check form-check-inline mr-2">
-                            <input class="form-check-input" type="radio" name="answer" value="c"
-                                [(ngModel)]="correctAnswer" #answer="ngModel" required>
+                            <input class="form-check-input" type="radio" value="c" formControlName="correctAnswer">
                             <label class="form-check-label">(C)</label>
                         </div>
                         <div class="form-check form-check-inline mr-2">
-                            <input class="form-check-input" type="radio" name="answer" value="d"
-                                [(ngModel)]="correctAnswer" #answer="ngModel" required>
+                            <input class="form-check-input" type="radio" value="d" formControlName="correctAnswer">
                             <label class="form-check-label">(D)</label>
                         </div>
                     </div>
                 </div>
             </form>
-
             <span>
-                <button type="button" class="btn btn-primary" (click)="submitAddQuestion()"
+                <button type="button" class="btn btn-secondary btn-sm" (click)="submitAddQuestion()"
                     [disabled]="questionForm.invalid" [class.cursor-restriction]="questionForm.invalid"
-                    style="margin-right: 17px;">ADD Question</button>
+                    style="margin-right: 17px;">Add Question</button>
             </span>
-
         </section>
 
         <section>
             <div class="m-2">Question Sheet</div>
-            <!-- Display CKeditor Content -->
-            <div *ngIf="editorContentStatus" id="editorDisplayContent">
+            <button class="btn btn-secondary btn-sm m-2" (click)="enableQuestionEditing()">Edit Question</button>
+            <div id="editorDisplayContent">
                 <div class="card" style="width: 100%;">
-                    <div class="card-body" contenteditable="true">
+                    <div class="card-body" contenteditable="editQuestion">
                         <div class="displayFlexSpaceEvenly questionHeader">
-                            <div style="margin: 10px;">FIITJEE</div>
-                            <div style="margin: 10px;">Practical GeoMetry</div>
-                            <div style="margin: 10px;">CPP</div>
+                            <div style="margin: 10px;">{{instituteName}}</div>
+                            <div style="margin: 10px;">{{questionPaperTitle}}</div>
+                            <div style="margin: 10px;">{{semesterName}}</div>
                         </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6">Name: </div>
-                            <div class="col-12 col-md-6">Batch:</div>
+                        <div class="row mt-2">
+                            <div class="col-12 col-md-6">Name: {{name}}</div>
+                            <div class="col-12 col-md-6">Batch: {{batch}}</div>
                         </div>
-                        <div *ngFor="let singleQuestion of allQuestions;let i = index">
-                            <div class="row">
-                                <div>{{i+1}}.</div>
-                                <app-mathjax [content]="singleQuestion.question" class="col-md-11"></app-mathjax>
-                                <div class="pointer" (click)="removeSingleQuestion(i)">
-                                    X
+                        <hr>
+                        <div *ngFor="let singleQuestion of allQuestions;let i = index" class="mt-3">
+                            <div *ngIf="editorContentStatus">
+                                <div class="row">
+                                    <div>{{i+1}}.</div>
+                                    <!-- Display CKeditor Content -->
+                                    <app-mathjax [content]="singleQuestion.question" class="col-md-11"></app-mathjax>
+                                    <div class="pointer" (click)="removeSingleQuestion(i)"
+                                        *ngIf="questionEditableStatus">
+                                        X
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="displayFlex">
-                                <div class="ml-5p">(a) {{singleQuestion.a}}</div>
-                                <div class="ml-5p">(b) {{singleQuestion.b}}</div>
-                                <div class="ml-5p">(c) {{singleQuestion.c}}</div>
-                                <div class="ml-5p">(d) {{singleQuestion.d}}</div>
+                                <div class="displayFlex ">
+                                    <div class="ml-5p">(a) {{singleQuestion.a}}</div>
+                                    <div class="ml-5p">(b) {{singleQuestion.b}}</div>
+                                    <div class="ml-5p">(c) {{singleQuestion.c}}</div>
+                                    <div class="ml-5p">(d) {{singleQuestion.d}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>

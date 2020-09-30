@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf";
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 
@@ -19,21 +20,45 @@ export class CkeditorComponent implements OnInit {
   questionObj = new QuestionClass();
   public Editor = ClassicEditor;
 
-  choiceOne: any = "";
-  choiceTwo: any = "";
-  choiceThree: any = "";
-  choiceFour: any = "";
-  correctAnswer: any = "";
+  instituteName: string = "";
+  questionPaperTitle: string = "";
+  semesterName: string = "";
+  name: string = "";
+  batch: string = "";
 
-  EditorContent: any = "";
+
+  questionForm: FormGroup;
+  choiceOne: FormControl;
+  choiceTwo: FormControl;
+  choiceThree: FormControl;
+  choiceFour: FormControl;
+  correctAnswer: FormControl;
+
+  editorContent: any = "";
   editorContentStatus: boolean = false;
   displayContent = "";
   editorContentStore: any[] = [];
   allQuestions: any = [];
 
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    this.choiceOne = new FormControl("", [Validators.required]);
+    this.choiceTwo = new FormControl("", [Validators.required]);
+    this.choiceThree = new FormControl("", [Validators.required]);
+    this.choiceFour = new FormControl("", [Validators.required]);
+    this.correctAnswer = new FormControl("", [Validators.required]);
+
+    this.questionForm = this.formBuilder.group({
+      choiceOne: this.choiceOne,
+      choiceTwo: this.choiceTwo,
+      choiceThree: this.choiceThree,
+      choiceFour: this.choiceFour,
+      correctAnswer: this.correctAnswer,
+
+    })
   }
 
   public ckEditorconfiguration = {
@@ -89,52 +114,53 @@ export class CkeditorComponent implements OnInit {
     }
   };
 
-  showEditorContent() {
-    console.log("editor Content", this.EditorContent);
-    this.editorContentStatus = true;
-    this.displayContent = this.EditorContent;
-    this.editorContentStore.push(this.displayContent);
-    this.EditorContent = "";
-    console.log("editorContentStore", this.editorContentStore);
-  };
 
+  questionEditableStatus: boolean = false;
+  enableQuestionEditing() {
+    this.questionEditableStatus = !this.questionEditableStatus;
+  }
 
   clearEditorContent() {
-    this.EditorContent = ""
+    this.editorContent = ""
   };
 
   clearOutPut() {
-    this.displayContent = ""
     this.allQuestions = [];
   };
 
 
   // Question paper
-
   submitAddQuestion() {
     this.editorContentStatus = true;
-    this.questionObj.question = this.EditorContent;
-    this.questionObj.a = this.choiceOne;
-    this.questionObj.b = this.choiceTwo;
-    this.questionObj.c = this.choiceThree;
-    this.questionObj.d = this.choiceFour;
-    this.questionObj.answer = this.correctAnswer;
+    this.questionObj.question = this.editorContent;
+    this.questionObj.a = this.choiceOne.value;
+    this.questionObj.b = this.choiceTwo.value;
+    this.questionObj.c = this.choiceThree.value;
+    this.questionObj.d = this.choiceFour.value;
+    this.questionObj.answer = this.correctAnswer.value;
     let newQuestion = JSON.parse(JSON.stringify(this.questionObj));
     newQuestion["id"] = this.allQuestions.length + 1;
     console.log("stringify object", newQuestion);
     this.allQuestions.push(newQuestion);
     console.log("All questions", this.allQuestions);
-    // this.choiceOne = "";
-    // this.choiceTwo = "";
-    // this.choiceThree = "";
-    // this.choiceFour = "";
-    // this.showEditorContent();
+    this.questionForm.reset();
+    this.editorContent = "";
   };
 
 
   removeSingleQuestion(index) {
     this.allQuestions.splice(index, 1)
   };
+
+
+  checkEditorContent() {
+    console.log("editor Content", this.editorContent);
+    if (this.questionObj.question) {
+      let result = this.questionObj.question.split("</figure>").length;
+      console.log("image Length", result);
+    }
+  };
+
 
 
 

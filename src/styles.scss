@@ -19,11 +19,21 @@
   display: none;
 }
 
+::placeholder {
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.7;
+}
+
 //////////// CK EDITOR STYLING //////////////////////////
+
+.ck {
+  height: 200px;
+}
 
 // ckeditor: Placeholder
 .ck.ck-editor__editable > .ck-placeholder::before {
-  color: #d21714;
+  color: lightgrey;
   font-family: Georgia;
 }
 
