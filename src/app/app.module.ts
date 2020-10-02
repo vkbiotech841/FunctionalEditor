@@ -8,19 +8,23 @@ import { CkeditorComponent } from './ckeditor/ckeditor.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MathjaxComponent } from './mathjax/mathjax.component';
 import { NoSanitizePipe } from './pip/no-sanitize.pipe';
+import { QuizComponent } from './quiz/quiz.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
     CkeditorComponent,
     MathjaxComponent,
-    NoSanitizePipe
+    NoSanitizePipe,
+    QuizComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CKEditorModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

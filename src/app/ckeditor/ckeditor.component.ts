@@ -1,4 +1,5 @@
 import { QuestionClass } from './../models/question-class';
+import { QuestinoPaperMetaDataClass } from './../models/questionMetaData-class';
 import { Component, OnInit } from '@angular/core';
 
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -16,15 +17,17 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 
 export class CkeditorComponent implements OnInit {
-
-  questionObj = new QuestionClass();
   public Editor = ClassicEditor;
+  questionObj = new QuestionClass();
+  QuestinoPaperMetaDataObject = new QuestinoPaperMetaDataClass();
 
-  instituteName: string = "";
-  questionPaperTitle: string = "";
-  semesterName: string = "";
-  name: string = "";
-  batch: string = "";
+  questionMetaDataForm: FormGroup;
+  fileName: FormControl;
+  instituteName: FormControl;
+  questionPaperTitle: FormControl;
+  semesterName: FormControl;
+  name: FormControl;
+  batch: FormControl;
 
 
   questionForm: FormGroup;
@@ -45,6 +48,24 @@ export class CkeditorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.defaultSetting();
+    this.fileName = new FormControl("", []);
+    this.instituteName = new FormControl("", []);
+    this.questionPaperTitle = new FormControl("", []);
+    this.semesterName = new FormControl("", []);
+    this.name = new FormControl("", []);
+    this.batch = new FormControl("", []);
+
+    this.questionMetaDataForm = this.formBuilder.group({
+      fileName: this.fileName,
+      instituteName: this.instituteName,
+      questionPaperTitle: this.questionPaperTitle,
+      semesterName: this.semesterName,
+      name: this.name,
+      batch: this.batch
+    })
+
+
     this.choiceOne = new FormControl("", [Validators.required]);
     this.choiceTwo = new FormControl("", [Validators.required]);
     this.choiceThree = new FormControl("", [Validators.required]);
@@ -57,8 +78,7 @@ export class CkeditorComponent implements OnInit {
       choiceThree: this.choiceThree,
       choiceFour: this.choiceFour,
       correctAnswer: this.correctAnswer,
-
-    })
+    });
   }
 
   public ckEditorconfiguration = {
@@ -96,6 +116,43 @@ export class CkeditorComponent implements OnInit {
       'heading',
       'codeBlock',
     ]
+  };
+
+
+  defaultSetting() {
+    this.selectedMenu = 0;
+  }
+
+  questionPaperMetaData: object = {};
+
+  saveQuestionMetaData() {
+    if (this.questionMetaDataForm.valid) {
+      this.selectedMenu = 1;
+      this.QuestinoPaperMetaDataObject.fileName = this.fileName.value;
+      this.QuestinoPaperMetaDataObject.instituteName = this.instituteName.value;
+      this.QuestinoPaperMetaDataObject.questionPaperTitle = this.questionPaperTitle.value;
+      this.QuestinoPaperMetaDataObject.semesterName = this.semesterName.value;
+      this.QuestinoPaperMetaDataObject.name = this.name.value;
+      this.QuestinoPaperMetaDataObject.batch = this.batch.value;
+      console.log("questionMetaDataForm value", this.QuestinoPaperMetaDataObject);
+    }
+  };
+
+  saveQuestionPaper() {
+    this.submitAddQuestion();
+    this.selectedMenu = 2;
+  };
+
+  selectedMenu: number = 0;
+  menus: any = [
+    { menu: "MetaData" },
+    { menu: "Create Questions" },
+    { menu: "Question Paper" },
+  ];
+
+  setSelectedMenu(index) {
+    console.log("selected menu", index)
+    this.selectedMenu = index;
   };
 
 
@@ -194,10 +251,11 @@ export class CkeditorComponent implements OnInit {
 
 
   // TAKE A SCREEN SHOT: HTML to Image using html2canvas package
-  fileName: string = "";
+
 
   exporthtmlToImage() {
     // Assigning File name
+    this.fileName = this.fileName.value;
     this.assigningFileName(this.fileName);
     let element = document.getElementById("editorDisplayContent");
     html2canvas(element)
@@ -230,9 +288,9 @@ export class CkeditorComponent implements OnInit {
 
   assigningFileName(fileName) {
     if (this.fileName) {
-      this.fileName = this.fileName;
+      this.fileName = fileName;
     } else {
-      this.fileName = "Untitled"
+      // this.fileName = "";
     }
   };
 
@@ -251,7 +309,6 @@ export class CkeditorComponent implements OnInit {
         // addImage takes, y axis, x axis, image width and image height
         doc.addImage(imgData, 0, 0, imgWidth, imgHeight);
         doc.save(`${this.fileName}.pdf`);
-        this.fileName = "";
         console.log("imageDataBase64", imgData);
       });
   };

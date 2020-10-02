@@ -29,44 +29,60 @@
     <div *ngIf="mode == 'createQuestionPaper'">
         <button class="btn btn-secondary btn-sm" (click)="showOptions('options')">Go Back</button>
 
-        <section>
+        <nav class="navbar navbar-expand-lg navbar-light navbar-shadow">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse margin-top-30" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item lh50" *ngFor="let menu of menus; let i = index"
+                        [class.active]="i === selectedMenu" (click)="setSelectedMenu(i)">
+                        <a class="nav-link left-menu cursor-pointer ns-font">
+                            {{ menu.menu }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <section *ngIf="selectedMenu === 0">
             <h5>Question Paper MetaData:</h5>
             <div class="m-2">
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <input type="text" placeholder="File name for download" [(ngModel)]="fileName"
-                            class="form-control m-2">
-                        <input type="text" placeholder="Institute Name..." [(ngModel)]="instituteName"
-                            class="form-control m-2">
-                        <input type="text" placeholder="Question Paper Name" [(ngModel)]="questionPaperTitle"
-                            class="form-control m-2">
+
+                <form [formGroup]="questionMetaDataForm">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <input type="text" placeholder="File name for download" class="form-control m-2"
+                                formControlName="fileName">
+                            <input type="text" placeholder="Institute Name..." class="form-control m-2"
+                                formControlName="instituteName">
+                            <input type="text" placeholder="Question Paper Name" class="form-control m-2"
+                                formControlName="questionPaperTitle">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <input type="text" placeholder="Semester Name" class="form-control m-2"
+                                formControlName="semesterName">
+                            <input type="text" placeholder="Examiner Name" class="form-control m-2"
+                                formControlName="name">
+                            <input type="text" placeholder="Batch Name" class="form-control m-2"
+                                formControlName="batch">
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <input type="text" placeholder="Semester Name" [(ngModel)]="semesterName"
-                            class="form-control m-2">
-                        <input type="text" placeholder="Examiner Name" [(ngModel)]="name" class="form-control m-2">
-                        <input type="text" placeholder="Batch Name" [(ngModel)]="batch" class="form-control m-2">
-                    </div>
-                </div>
+                </form>
+
             </div>
+            <button class="btn btn-secondary btn-sm m-2" (click)="saveQuestionMetaData()">Save and Continue</button>
         </section>
 
-        <section>
+        <section *ngIf="selectedMenu === 1">
             <h5>Frame Your Questions:</h5>
             <ckeditor #editor [editor]="Editor" [(ngModel)]="editorContent" [config]="ckEditorconfiguration"
                 (ready)="onReady($event)">
             </ckeditor>
 
             <div>
-                <!-- <button class=" btn btn-primary" (click)="showEditorContent();">
-                    SUBMIT
-                </button> -->
-                <button class="btn btn-secondary btn-sm" (click)="exporthtmlToImage()">
-                    ScreenShot
-                </button>
-                <button class="btn btn-secondary btn-sm" (click)="exportHtmlToPDF()">
-                    Export as Pdf
-                </button>
                 <button class="btn btn-secondary btn-sm" (click)="clearEditorContent()">
                     Clear Input
                 </button>
@@ -78,10 +94,7 @@
                     <input type="file" multiple accept="image/*" name="upload-file" (change)="uploadImageAsUrl($event)">
                 </button>
             </div>
-        </section>
 
-
-        <section>
             <form [formGroup]="questionForm">
                 <div class="row">
                     <div class="col-sm-12 col-12 col-lg-6">
@@ -147,24 +160,34 @@
             <span>
                 <button type="button" class="btn btn-secondary btn-sm" (click)="submitAddQuestion()"
                     [disabled]="questionForm.invalid" [class.cursor-restriction]="questionForm.invalid"
-                    style="margin-right: 17px;">Add Question</button>
+                    style="margin-right: 17px;">
+                    Add Question
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" (click)="saveQuestionPaper()">Save and
+                    Continue</button>
             </span>
         </section>
 
-        <section>
+        <section *ngIf="selectedMenu === 2">
             <div class="m-2">Question Sheet</div>
             <button class="btn btn-secondary btn-sm m-2" (click)="enableQuestionEditing()">Edit Question</button>
+            <button class="btn btn-secondary btn-sm" (click)="exporthtmlToImage()">
+                ScreenShot
+            </button>
+            <button class="btn btn-secondary btn-sm" (click)="exportHtmlToPDF()">
+                Export as Pdf
+            </button>
             <div id="editorDisplayContent">
                 <div class="card" style="width: 100%;">
                     <div class="card-body" contenteditable="editQuestion">
                         <div class="displayFlexSpaceEvenly questionHeader">
-                            <div style="margin: 10px;">{{instituteName}}</div>
-                            <div style="margin: 10px;">{{questionPaperTitle}}</div>
-                            <div style="margin: 10px;">{{semesterName}}</div>
+                            <div style="margin: 10px;">{{QuestinoPaperMetaDataObject.instituteName}}</div>
+                            <div style="margin: 10px;">{{QuestinoPaperMetaDataObject.questionPaperTitle}}</div>
+                            <div style="margin: 10px;">{{QuestinoPaperMetaDataObject.semesterName}}</div>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-12 col-md-6">Name: {{name}}</div>
-                            <div class="col-12 col-md-6">Batch: {{batch}}</div>
+                            <div class="col-12 col-md-6">Name: {{QuestinoPaperMetaDataObject.name}}</div>
+                            <div class="col-12 col-md-6">Batch: {{QuestinoPaperMetaDataObject.batch}}</div>
                         </div>
                         <hr>
                         <div *ngFor="let singleQuestion of allQuestions;let i = index" class="mt-3">
@@ -208,6 +231,7 @@
         <button class="btn btn-secondary btn-sm" (click)="showOptions('options')">Back</button>
         <div>
             Quize in development
+            <app-quiz></app-quiz>
         </div>
 
     </div>
