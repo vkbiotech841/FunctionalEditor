@@ -1,12 +1,13 @@
 .btn {
-  border-radius: 0;
+  border-radius: 10px;
 }
 
 .option {
-  background-color: #cadaee;
+  background-color: lightgrey;
   font-size: 20px;
   padding: 10px;
   margin: 3px;
+  border-radius: 10px;
 }
 #quiz .options input[type="checkbox"] {
   height: 22px;

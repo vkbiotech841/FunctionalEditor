@@ -1,3 +1,5 @@
+import { UtilityService } from './../services/utility.service';
+
 import { QuestionClass } from './../models/question-class';
 import { QuestinoPaperMetaDataClass } from './../models/questionMetaData-class';
 import { Component, OnInit } from '@angular/core';
@@ -6,6 +8,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 
 
 
@@ -45,6 +48,8 @@ export class CkeditorComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private utilityService: UtilityService
+
   ) { }
 
   ngOnInit() {
@@ -65,7 +70,6 @@ export class CkeditorComponent implements OnInit {
       batch: this.batch
     })
 
-
     this.choiceOne = new FormControl("", [Validators.required]);
     this.choiceTwo = new FormControl("", [Validators.required]);
     this.choiceThree = new FormControl("", [Validators.required]);
@@ -80,6 +84,8 @@ export class CkeditorComponent implements OnInit {
       correctAnswer: this.correctAnswer,
     });
   }
+
+
 
   public ckEditorconfiguration = {
     placeholder: 'Type the content here!',
@@ -135,18 +141,20 @@ export class CkeditorComponent implements OnInit {
       this.QuestinoPaperMetaDataObject.name = this.name.value;
       this.QuestinoPaperMetaDataObject.batch = this.batch.value;
       console.log("questionMetaDataForm value", this.QuestinoPaperMetaDataObject);
+      this.utilityService.showSuccess('MetaData saved successfully');
     }
   };
 
   saveQuestionPaper() {
     this.submitAddQuestion();
     this.selectedMenu = 2;
+    this.utilityService.showSuccess("Questions added Successfully");
   };
 
   selectedMenu: number = 0;
   menus: any = [
     { menu: "MetaData" },
-    { menu: "Create Questions" },
+    { menu: "Add Questions" },
     { menu: "Question Paper" },
   ];
 
@@ -202,6 +210,7 @@ export class CkeditorComponent implements OnInit {
     console.log("All questions", this.allQuestions);
     this.questionForm.reset();
     this.editorContent = "";
+    this.utilityService.showSuccess("Question added successfully");
   };
 
 

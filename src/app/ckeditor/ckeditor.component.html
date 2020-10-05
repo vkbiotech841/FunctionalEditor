@@ -163,8 +163,9 @@
                     style="margin-right: 17px;">
                     Add Question
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm" (click)="saveQuestionPaper()">Save and
-                    Continue</button>
+                <button type="button" class="btn btn-secondary btn-sm" (click)="saveQuestionPaper()">
+                    Save and Continue
+                </button>
             </span>
         </section>
 
@@ -226,11 +227,9 @@
 
 
     <!-- TAKE A QUIZE -->
-
     <div *ngIf="mode == 'takeAQuize'">
         <button class="btn btn-secondary btn-sm" (click)="showOptions('options')">Back</button>
         <div>
-            Quize in development
             <app-quiz></app-quiz>
         </div>
 
