@@ -1,4 +1,4 @@
-import { UtilityService } from './../services/utility.service';
+import { UtilityService } from '../components/shared/services/utility.service';
 
 import { QuestionClass } from './../models/question-class';
 import { QuestinoPaperMetaDataClass } from './../models/questionMetaData-class';

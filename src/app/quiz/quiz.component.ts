@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { QuizService } from '../services/quiz.service';
-import { HelperService } from '../services/helper.service';
+import { QuizService } from '../components/shared/services/quiz.service';
+import { HelperService } from '../components/shared/services/helper.service';
 import { Option, Question, Quiz, QuizConfig } from '../models/index';
 
 @Component({
