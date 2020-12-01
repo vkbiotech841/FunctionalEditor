@@ -1,0 +1,20 @@
+<div class="page-wrapper" [ngClass]="{'toggled' : getSideBarState()}">
+    <app-sidenav></app-sidenav>
+    <main class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <h2> <img src="assets/img/angular.png" alt="angular logo" width="70px"> Angular Sidebar Template
+                    </h2>
+                    <hr>
+                    <p>This is a responsive sidebar template with dropdown menu built with angular 7 and bootstrap 4.
+                    </p>
+                    <hr>
+                    <a href="#" class="btn btn-outline-secondary mr-1 mb-1" (click)="toggleSidebar()">Toggle Sidebar</a>
+                    <app-ckeditor></app-ckeditor>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
