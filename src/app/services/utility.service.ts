@@ -14,7 +14,7 @@ export class UtilityService {
   showSuccess(title?, message?, time?) {
     this.toastrService.success(title, message, {
       timeOut: time || 3000,
-      progressBar: true,
+      // progressBar: true,
       positionClass: 'toast-top-right'
     });
   };
@@ -22,7 +22,7 @@ export class UtilityService {
   showError(title?, message?, time?) {
     this.toastrService.error(title, message, {
       timeOut: time || 3000,
-      progressBar: true,
+      // progressBar: true,
       positionClass: 'toast-top-right'
     });
   };
@@ -30,7 +30,7 @@ export class UtilityService {
   showInfo(title?, message?, time?) {
     this.toastrService.info(title, message, {
       timeOut: time || 3000,
-      progressBar: true,
+      // progressBar: true,
       positionClass: 'toast-top-center'
     });
   };
@@ -38,7 +38,7 @@ export class UtilityService {
   showWarning(title?, message?, time?) {
     this.toastrService.warning(title, message, {
       timeOut: time || 3000,
-      progressBar: true,
+      // progressBar: true,
       positionClass: 'toast-top-center'
     });
   };

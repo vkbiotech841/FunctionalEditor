@@ -2,7 +2,7 @@
 <div class="options">
     <div *ngIf="mode == 'options'">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="card pointer" (click)="showOptions('createQuestionPaper')">
                     <div class="card-body">
                         <h5 class="card-title">Create A Question Paper</h5>
@@ -30,16 +30,16 @@
         <button class="btn btn-secondary btn-sm" (click)="showOptions('options')">Go Back</button>
 
         <nav class="navbar navbar-expand-lg navbar-light navbar-shadow">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button> -->
 
             <div class="collapse navbar-collapse margin-top-30" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item lh50" *ngFor="let menu of menus; let i = index"
                         [class.active]="i === selectedMenu" (click)="setSelectedMenu(i)">
-                        <a class="nav-link left-menu cursor-pointer ns-font">
+                        <a class="nav-link left-menu pointer">
                             {{ menu.menu }}
                         </a>
                     </li>

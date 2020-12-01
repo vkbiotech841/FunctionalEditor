@@ -83,7 +83,7 @@ export class CkeditorComponent implements OnInit {
       choiceFour: this.choiceFour,
       correctAnswer: this.correctAnswer,
     });
-  }
+  };
 
 
 
@@ -148,7 +148,7 @@ export class CkeditorComponent implements OnInit {
   saveQuestionPaper() {
     this.submitAddQuestion();
     this.selectedMenu = 2;
-    this.utilityService.showSuccess("Questions added Successfully");
+    // this.utilityService.showSuccess("Questions added Successfully");
   };
 
   selectedMenu: number = 0;
@@ -183,7 +183,7 @@ export class CkeditorComponent implements OnInit {
   questionEditableStatus: boolean = false;
   enableQuestionEditing() {
     this.questionEditableStatus = !this.questionEditableStatus;
-  }
+  };
 
   clearEditorContent() {
     this.editorContent = ""
