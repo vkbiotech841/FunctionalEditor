@@ -48,20 +48,43 @@
         </nav>
 
         <section *ngIf="selectedMenu === 0">
-            <h5>Question Paper MetaData:</h5>
+
             <div class="m-2">
 
                 <form [formGroup]="questionMetaDataForm">
                     <div class="row">
                         <div class="col-12 col-md-6">
+                            <div>
+                                <p>Question Paper Details</p>
+                            </div>
+                            <input type="text" placeholder="Title" class="form-control m-2" formControlName="title">
+                            <input type="text" placeholder="Board" class="form-control m-2" formControlName="board">
+                            <input type="text" placeholder="Class Name" class="form-control m-2"
+                                formControlName="className">
+                            <input type="text" placeholder="Subject Name" class="form-control m-2"
+                                formControlName="subject">
+                            <input type="text" placeholder="Chapter" class="form-control m-2" formControlName="chapter">
+                            <input type="text" placeholder="Topic" class="form-control m-2" formControlName="topic">
+                            <input type="text" placeholder="Subtopic" class="form-control m-2"
+                                formControlName="subtopic">
+                            <select class="form-control m-2" formControlName="level">
+                                <option value="">Beginner</option>
+                                <option value="">Intermediate</option>
+                                <option value="">Expert</option>
+                                <option value="">All Level</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div>
+                                <p>Question Paper Header</p>
+                            </div>
                             <input type="text" placeholder="File name for download" class="form-control m-2"
                                 formControlName="fileName">
                             <input type="text" placeholder="Institute Name..." class="form-control m-2"
                                 formControlName="instituteName">
                             <input type="text" placeholder="Question Paper Name" class="form-control m-2"
                                 formControlName="questionPaperTitle">
-                        </div>
-                        <div class="col-12 col-md-6">
                             <input type="text" placeholder="Semester Name" class="form-control m-2"
                                 formControlName="semesterName">
                             <input type="text" placeholder="Examiner Name" class="form-control m-2"
@@ -192,10 +215,11 @@
                         </div>
                         <hr>
                         <div *ngFor="let singleQuestion of allQuestions;let i = index" class="mt-3">
+                            {{singleQuestion.options | json}}
                             <div *ngIf="editorContentStatus">
                                 <div class="row">
                                     <div>{{i+1}}.</div>
-                                    <!-- Display CKeditor Content -->
+                                    <!-- Display CKeditor Content using MathJax -->
                                     <app-mathjax [content]="singleQuestion.question" class="col-md-11"></app-mathjax>
                                     <div class="pointer" (click)="removeSingleQuestion(i)"
                                         *ngIf="questionEditableStatus">
@@ -203,10 +227,10 @@
                                     </div>
                                 </div>
                                 <div class="displayFlex ">
-                                    <div class="ml-5p">(a) {{singleQuestion.a}}</div>
-                                    <div class="ml-5p">(b) {{singleQuestion.b}}</div>
-                                    <div class="ml-5p">(c) {{singleQuestion.c}}</div>
-                                    <div class="ml-5p">(d) {{singleQuestion.d}}</div>
+                                    <div class="ml-5p">(a) {{singleQuestion.options[0].option}}</div>
+                                    <div class="ml-5p">(b) {{singleQuestion.options[1].option}}</div>
+                                    <div class="ml-5p">(c) {{singleQuestion.options[2].option}}</div>
+                                    <div class="ml-5p">(d) {{singleQuestion.options[3].option}}</div>
                                 </div>
                             </div>
                         </div>

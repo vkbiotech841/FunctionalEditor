@@ -30,6 +30,14 @@ export class CkeditorComponent implements OnInit {
   semesterName: FormControl;
   name: FormControl;
   batch: FormControl;
+  title: FormControl;
+  board: FormControl;
+  className: FormControl;
+  subject: FormControl;
+  chapter: FormControl;
+  topic: FormControl;
+  subtopic: FormControl;
+  level: FormControl;
 
 
   questionForm: FormGroup;
@@ -53,6 +61,12 @@ export class CkeditorComponent implements OnInit {
 
   ngOnInit() {
     this.defaultSetting();
+    this.initiateAndValidateQuestionMetadata();
+    this.initiateAndValidateQuestionForm();
+  };
+
+
+  initiateAndValidateQuestionMetadata() {
     this.fileName = new FormControl("", []);
     this.instituteName = new FormControl("", []);
     this.questionPaperTitle = new FormControl("", []);
@@ -60,15 +74,35 @@ export class CkeditorComponent implements OnInit {
     this.name = new FormControl("", []);
     this.batch = new FormControl("", []);
 
+    this.title = new FormControl("", []);
+    this.board = new FormControl("", []);
+    this.className = new FormControl("", []);
+    this.subject = new FormControl("", []);
+    this.chapter = new FormControl("", []);
+    this.topic = new FormControl("", []);
+    this.subtopic = new FormControl("", []);
+    this.level = new FormControl("", []);
+
     this.questionMetaDataForm = this.formBuilder.group({
       fileName: this.fileName,
       instituteName: this.instituteName,
       questionPaperTitle: this.questionPaperTitle,
       semesterName: this.semesterName,
       name: this.name,
-      batch: this.batch
+      batch: this.batch,
+      title: this.title,
+      board: this.board,
+      className: this.className,
+      subject: this.subject,
+      chapter: this.chapter,
+      topic: this.topic,
+      subtopic: this.subtopic,
+      level: this.level
     })
 
+  };
+
+  initiateAndValidateQuestionForm() {
     this.choiceOne = new FormControl("", [Validators.required]);
     this.choiceTwo = new FormControl("", [Validators.required]);
     this.choiceThree = new FormControl("", [Validators.required]);
@@ -85,7 +119,7 @@ export class CkeditorComponent implements OnInit {
   };
 
 
-
+  /// CKeditor ///////////
   public ckEditorconfiguration = {
     placeholder: 'Type the content here!',
     toolbar: [
@@ -124,32 +158,6 @@ export class CkeditorComponent implements OnInit {
   };
 
 
-  defaultSetting() {
-    this.selectedMenu = 0;
-  }
-
-  questionPaperMetaData: object = {};
-
-  saveQuestionMetaData() {
-    if (this.questionMetaDataForm.valid) {
-      this.selectedMenu = 1;
-      this.QuestinoPaperMetaDataObject.fileName = this.fileName.value;
-      this.QuestinoPaperMetaDataObject.instituteName = this.instituteName.value;
-      this.QuestinoPaperMetaDataObject.questionPaperTitle = this.questionPaperTitle.value;
-      this.QuestinoPaperMetaDataObject.semesterName = this.semesterName.value;
-      this.QuestinoPaperMetaDataObject.name = this.name.value;
-      this.QuestinoPaperMetaDataObject.batch = this.batch.value;
-      console.log("questionMetaDataForm value", this.QuestinoPaperMetaDataObject);
-      this.utilityService.showSuccess('MetaData saved successfully');
-    }
-  };
-
-  saveQuestionPaper() {
-    this.submitAddQuestion();
-    this.selectedMenu = 2;
-    // this.utilityService.showSuccess("Questions added Successfully");
-  };
-
   selectedMenu: number = 0;
   menus: any = [
     { menu: "MetaData" },
@@ -179,6 +187,33 @@ export class CkeditorComponent implements OnInit {
   };
 
 
+  defaultSetting() {
+    this.selectedMenu = 0;
+  };
+
+  questionPaperMetaData: object = {};
+
+  saveQuestionMetaData() {
+    console.log("QuestionPaper Metadata", this.questionMetaDataForm.value);
+    if (this.questionMetaDataForm.valid) {
+      this.selectedMenu = 1;
+      this.QuestinoPaperMetaDataObject.fileName = this.fileName.value;
+      this.QuestinoPaperMetaDataObject.instituteName = this.instituteName.value;
+      this.QuestinoPaperMetaDataObject.questionPaperTitle = this.questionPaperTitle.value;
+      this.QuestinoPaperMetaDataObject.semesterName = this.semesterName.value;
+      this.QuestinoPaperMetaDataObject.name = this.name.value;
+      this.QuestinoPaperMetaDataObject.batch = this.batch.value;
+      console.log("questionMetaDataForm value", this.QuestinoPaperMetaDataObject);
+      this.utilityService.showSuccess('MetaData saved successfully');
+    }
+  };
+
+  saveQuestionPaper() {
+    this.submitAddQuestion();
+    this.selectedMenu = 2;
+    // this.utilityService.showSuccess("Questions added Successfully");
+  };
+
   questionEditableStatus: boolean = false;
   enableQuestionEditing() {
     this.questionEditableStatus = !this.questionEditableStatus;
@@ -196,17 +231,57 @@ export class CkeditorComponent implements OnInit {
   // Question paper
   submitAddQuestion() {
     this.editorContentStatus = true;
+    // this.questionObj.question = this.editorContent;
+    // this.questionObj.a = this.choiceOne.value;
+    // this.questionObj.b = this.choiceTwo.value;
+    // this.questionObj.c = this.choiceThree.value;
+    // this.questionObj.d = this.choiceFour.value;
+    // this.questionObj.answer = this.correctAnswer.value;
+    // let newQuestion = JSON.parse(JSON.stringify(this.questionObj));
+    // newQuestion["id"] = this.allQuestions.length + 1;
+    // console.log("stringify object", newQuestion);
+    // this.allQuestions.push(newQuestion);
+    // console.log("All questions", this.allQuestions);
+
+    this.questionObj.questionNumber = this.allQuestions.length + 1;
     this.questionObj.question = this.editorContent;
-    this.questionObj.a = this.choiceOne.value;
-    this.questionObj.b = this.choiceTwo.value;
-    this.questionObj.c = this.choiceThree.value;
-    this.questionObj.d = this.choiceFour.value;
-    this.questionObj.answer = this.correctAnswer.value;
-    let newQuestion = JSON.parse(JSON.stringify(this.questionObj));
-    newQuestion["id"] = this.allQuestions.length + 1;
-    console.log("stringify object", newQuestion);
-    this.allQuestions.push(newQuestion);
+    this.questionObj.correctAnswer = this.correctAnswer.value;
+    this.questionObj.options = [
+      {
+        "option_no": "a",
+        "option": this.choiceOne.value
+      },
+      {
+        "option_no": "b",
+        "option": this.choiceOne.value
+      },
+      {
+        "option_no": "c",
+        "option": this.choiceOne.value
+      },
+      {
+        "option_no": "d",
+        "option": this.choiceOne.value
+      },
+    ];
+
+    let newQuestionDetails = JSON.parse(JSON.stringify(this.questionObj));
+    this.allQuestions.push(newQuestionDetails);
     console.log("All questions", this.allQuestions);
+
+    const data = {
+      class_name: this.className.value,
+      subject: this.subject.value,
+      title: this.title.value,
+      board: this.board.value,
+      chapter: this.chapter.value,
+      topic: this.topic.value,
+      subtopic: this.subtopic.value,
+      level: this.level.value,
+      pre_requisites: [],
+      questions: this.allQuestions
+    };
+    console.log("vikram data", data);
     this.questionForm.reset();
     this.editorContent = "";
     this.utilityService.showSuccess("Question added successfully");
@@ -216,26 +291,6 @@ export class CkeditorComponent implements OnInit {
   removeSingleQuestion(index) {
     this.allQuestions.splice(index, 1)
   };
-
-
-  checkEditorContent() {
-    console.log("editor Content", this.editorContent);
-    if (this.questionObj.question) {
-      let result = this.questionObj.question.split("</figure>").length;
-      console.log("image Length", result);
-    }
-  };
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -329,15 +384,6 @@ export class CkeditorComponent implements OnInit {
       return new UploadAdapter(loader);
     };
   };
-
-
-
-
-
-
-
-
-
 }
 
 ///////////// END OF THE CLASS///////////////////////////////////
@@ -359,7 +405,6 @@ export class UploadAdapter {
         myReader.onloadend = (e) => {
           resolve({ default: myReader.result });
         }
-
         myReader.readAsDataURL(file);
       }));
   };

@@ -1,9 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-// import { CkeditorComponent } from './ckeditor/ckeditor.component';
-// import { MathjaxComponent } from './mathjax/mathjax.component';
-// import { QuizComponent } from './quiz/quiz.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
