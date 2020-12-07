@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Option, Question, Quiz, QuizConfig } from '../../shared/models';
+import { QuizService } from '../../shared/services/quiz.service';
 
-import { QuizService } from '../components/shared/services/quiz.service';
-import { HelperService } from '../components/shared/services/helper.service';
-import { Option, Question, Quiz, QuizConfig } from '../models/index';
+// import { QuizService } from '../components/shared/services/quiz.service';
+// import { HelperService } from '../components/shared/services/helper.service';
+// import { Option, Question, Quiz, QuizConfig } from '../models/index';
 
 @Component({
   selector: 'app-quiz',

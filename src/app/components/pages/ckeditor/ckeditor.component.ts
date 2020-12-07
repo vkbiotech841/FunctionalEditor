@@ -1,13 +1,12 @@
-import { UtilityService } from '../components/shared/services/utility.service';
-
-import { QuestionClass } from './../models/question-class';
-import { QuestinoPaperMetaDataClass } from './../models/questionMetaData-class';
 import { Component, OnInit } from '@angular/core';
 
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UtilityService } from '../../shared/services/utility.service';
+import { QuestionClass } from '../../shared/models/question-class';
+import { QuestinoPaperMetaDataClass } from '../../shared/models/questionMetaData-class';
 
 
 
